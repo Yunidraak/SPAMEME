@@ -258,7 +258,7 @@ start()
 
             except:
                 print(
-                    "\nThe subredit's name isn't valid or doesn't exist anymore.\nPlease verify your input."
+                    "\nInternet isn't available. Please reconnect to continue."
                 )
                 subreddit = False
 
