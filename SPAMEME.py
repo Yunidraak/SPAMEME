@@ -4,13 +4,13 @@
 
 v 1.0.0
 
-SPAMEME is a copyright-free Python program used to facilitate memes
-spam. This program is currently only usable on windows with the
-Python PATH if you have not previously installed the Python
-requests, pyperclip and pyautogui libraries. It is currently usable
-to spam memes on discord and whatsapp web, but only on 17-inch
-computers for the latter. This program currently requires that your
-computer is not used during the operation.
+SPAMEME is a program used to facilitate memes spam. This program
+is currently only usable on windows with the Python PATH if you
+have not previously installed the Python requests, pyperclip and
+pyautogui libraries. It is currently usable to spam memes on
+discord and whatsapp web, but only on 17-inch computers for the
+latter. This program currently requires that your computer is not
+used during the operation.
 
 For more information about starting the program, use help(start).
 For more information about Discord spam, use help(discord). For more
@@ -222,7 +222,7 @@ start()
 """
 
     print(
-        "\n   #@@@@@@@@@@# #@@@@@@@@@@# #@@@@@@@@#  #@@@@@@@##@@@@@@@##@@@@@@@@@#@@@@@@@##@@@@@@@##@@@@@@@@@#\n  #@          @#@          @#@        @# @       @@       @@         @       @@       @@         @\n  @     @@    .@@     @     @@        .@ @       @/       @@     ....@       #@       @@     ....@\n  @.     @@@@@@#@     @,    @@    @    @ @       (        @@     @@@@@        %       @@     @@@@#\n  #@,       /@@#@          ,@.    @    @#@    #           @@         @           /    @@         @\n   #@@@%      .@@        *@@@    .@     @@    %     *     @@     ____@     .     (    @@     ____@\n  @/    @@     @@     @@@@##@           @@    %.    @     @@     @@@@@     @    .(    @@     @@@@#\n  @&    &@     @@     @    @,    ,@.    #@    %@    @     @@         @     @    @#    @@         @\n   @@        .@#@     @    @     &@@     @    %@   *@     @@         @     @*   @#    @@         @\n    #@@@@@@@@@# #@@@@@#    #@@@@@@ #@@@@@@@@@@@#@@@@#@@@@@##@@@@@@@@@#@@@@@#@@@@#@@@@@##@@@@@@@@@#\n                                                                                           v 1.0.0\n\n  ╔═════════════════════════════════════════════════════════════════╗\n  ║                                                                 ║     ONE DOES NOT SIMPLY      \n  ║   This program is free software; you can redistribute it        ║         _-----_              \n  ║   and/or modify it under the terms of the GNU General Public    ║        /___.-\ \             \n  ║   License as published by the Free Software Foundation;         ║       ||__ _\_\ \            \n  ║   either version 2 of the License, or (at your option) any      ║       |\ #. *  \ )           \n  ║   later version.                                                ║    _-┬n¬\  ==¯ ) )--__       \n  ║                                                                 ║   / /¯()\¯\@@#¯_-¯¯_/ ¯¯--   \n  ║   If any problem, type help() in the Python terminal after      ║   |\   /     \  |¯           \n  ║   this program finished to run and then type SPAMEME.           ║   /¯¯¯¯|      | |            \n  ║                                                                 ║    SPAM MEMES WITH PYTHON    \n  ╚═════════════════════════════════════════════════════════════════╝"
+        "\n   #@@@@@@@@@@# #@@@@@@@@@@# #@@@@@@@@#  #@@@@@@@##@@@@@@@##@@@@@@@@@#@@@@@@@##@@@@@@@##@@@@@@@@@#\n  #@          @#@          @#@        @# @       @@       @@         @       @@       @@         @\n  @     @@    .@@     @     @@        .@ @       @/       @@     ....@       #@       @@     ....@\n  @.     @@@@@@#@     @,    @@    @    @ @       (        @@     @@@@@        %       @@     @@@@#\n  #@,       /@@#@          ,@.    @    @#@    #           @@         @           /    @@         @\n   #@@@%      .@@        *@@@    .@     @@    %     *     @@     ____@     .     (    @@     ____@\n  @/    @@     @@     @@@@##@           @@    %.    @     @@     @@@@@     @    .(    @@     @@@@#\n  @&    &@     @@     @    @,    ,@.    #@    %@    @     @@         @     @    @#    @@         @\n   @@        .@#@     @    @     &@@     @    %@   *@     @@         @     @*   @#    @@         @\n    #@@@@@@@@@# #@@@@@#    #@@@@@@ #@@@@@@@@@@@#@@@@#@@@@@##@@@@@@@@@#@@@@@#@@@@#@@@@@##@@@@@@@@@#\n                                                                                           v 1.0.0\n  ╔═════════════════════════════════════════════════════════════════╗\n  ║                                                                 ║     ONE DOES NOT SIMPLY      \n  ║   Licensed under the MIT License                                ║         _-----_              \n  ║   Copyright (c) 2021 Yunidraak                                  ║        /___.-\ \             \n  ║                                                                 ║       ||__ _\_\ \            \n  ║   If any problem with the program, type help() in the Python    ║       |\ #. *  \ )           \n  ║   terminal after this program finished to run and then type     ║    _-┬n¬\  ==¯ ) )--__       \n  ║   SPAMEME.                                                      ║   / /¯()\¯\@@#¯_-¯¯_/ ¯¯--   \n  ║   For more questions or comments, please use the API which is   ║   |\   /     \  |¯           \n  ║   not yet available because the developers are too lazy.        ║   /¯¯¯¯|      | |            \n  ║                                                                 ║    SPAM MEMES WITH PYTHON    \n  ╚═════════════════════════════════════════════════════════════════╝"
     )
 
     time.sleep(1)
