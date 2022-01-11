@@ -37,13 +37,13 @@ except ModuleNotFoundError:
 try:
     import pyperclip
 except ModuleNotFoundError:
-    os.system("pip install requests")
+    os.system("pip install pyperclip")
     import pyperclip
 
 try:
     import pyautogui
 except ModuleNotFoundError:
-    os.system("pip install requests")
+    os.system("pip install pyautogui")
     import pyautogui
 
 
