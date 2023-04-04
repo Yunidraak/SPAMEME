@@ -2,12 +2,12 @@
 
 """
 
-v 1.0.1
+v 6.9
 
 SPAMEME is a program used to facilitate memes spam. This program is currently
-only usable on windows with the Python PATH if you have not previously installed
-the Python requests, pyperclip and pyautogui libraries. It is currently usable
-to spam memes as urls or pictures.
+only usable on Windows with the Python PATH if you have not previously installed
+the Python requests, win32clipboard, PIL, pyperclip and pyautogui libraries.
+It is currently usable to spam memes as urls or pictures.
 This program currently requires that your computer is not used during the spam.
 
 For more information about starting the program, use help(start). For more
@@ -20,7 +20,6 @@ because the developers are too lazy.
 
 import os, time, keyboard, sys, urllib.request
 from io import BytesIO
-import win32clipboard
 
 try:
     import requests
@@ -29,9 +28,15 @@ except ModuleNotFoundError:
     import requests
 
 try:
+    import win32clipboard
+except ModuleNotFoundError:
+    os.system("pip install pywin32")
+    import win32clipboard
+
+try:
     from PIL import Image
 except ModuleNotFoundError:
-    os.system("pip install PIL")
+    os.system("pip install Pillow")
     from PIL import Image
 
 try:
@@ -74,21 +79,19 @@ spam(...)
         """
 For the proper functioning of spam, you must place your cursor in the writing
 bar of the conversation on which you want to spam the same. You must then press
-enter, and you will then have 5 seconds before the spam starts. Then you have to
+Enter, and you will then have 5 seconds before the spam starts. Then you have to
 wait until the end of the spam to be able to resume other activities.
   
 Press enter to continue.""", end=" ")
 
-    go = False
-
-    while go == False:
-
-        if keyboard.is_pressed("enter"):
-            go = True
+    while not keyboard.is_pressed("enter"):
+        pass
 
     time.sleep(5)
 
     memes = gimmemes(subreddit, count)
+
+    print("\n\nSpamming memes                     ")
 
     if output == 1:
 
@@ -116,14 +119,12 @@ Press enter to continue.""", end=" ")
 
     else:
         for i in range(count):
-            memeurl = memes[i]
+            memeurl = memes[i]["url"]
             pyperclip.copy(memeurl)
 
             pyautogui.hotkey("ctrl", "v")
             time.sleep(2)
             pyautogui.press("enter")
-
-    input("\n\nMission Accomplished.\nPress Enter to close the programm.")
 
 
 def gimmemes(subreddit="", count=1):
@@ -134,150 +135,93 @@ Help on added function gimmemes in SPAMEME module:
 gimmemes(...)
     gimmemes(subreddit="", count=1)
 
-    Give the url(s) of meme(s).
+    Give the url(s) of meme(s), using meme-api.com.
     Optional keywords arguments:
     subreddit: The subreddit from which the memes will be
     given, default a random one.
     count: The number of memes that will be given, default one.
 """
 
-    if count == 1:
-        operation = 0
-    else:
-        operation = 1
+    number = str(count)
+    
+    query = str("https://meme-api.com/gimme/"
+    + str(subreddit) + number)
+    memesdata = requests.get(query)
+    memesinfo = memesdata.json()
+    memes = memesinfo["memes"]
+        
 
-    if operation == 0:
+    if len(memes) != count:
+            
+        print("""
 
-        query = str("https://meme-api.herokuapp.com/gimme/" + str(subreddit))
-        memedata = requests.get(query)
-        memeinfo = memedata.json()
-        memes = []
-        memes.append(memeinfo["url"])
-
-        return memes
-
-    else:
-
-        try:
-
-            number = str(count)
-            query = str("https://meme-api.herokuapp.com/gimme/"
-            + str(subreddit) + "/" + str(number))
-            memesdata = requests.get(query)
-            memesinfo = memesdata.json()
-            memes = memesinfo["memes"]
-
-            if len(memes) != count:
-                print("""
 This operation can take a little moment.
 Please wait.
 """)
-                memesinfo["morememes"]
-
-            for i in range(len(memes)):
-                memes[i] = memes[i]["url"]
-
-        except KeyError:
-
-            try:
-
-                go = False
-
-                memes = []
-
-                while go == False:
-
-                    query = str("https://meme-api.herokuapp.com/gimme/"
-                    + str(subreddit) + "50")
-                    memedata = requests.get(query)
-                    memeinfo = memedata.json()
-                    memeurls = memeinfo["memes"]
+        d = count - len(memes)
+        t = 0
+        
+        while d > 0 and t < 10 :
+            
+            query = str("https://meme-api.com/gimme/"
+            + str(subreddit) + "50")
+            memedata = requests.get(query)
+            memeinfo = memedata.json()
+            memeurls = memeinfo["memes"]
+            
+            
+            i = 0
+            l = len(memes)
+            
+            while d > 0 and i < 50 :
+                
+                j = 0
+                
+                while j < l and memes[j]["url"] != memeurls[i]["url"] :
+                    j += 1
                     
-                    for i in range(len(memeurls)):
-                        
-                        if memeurls[i]["url"] in memes or len(memes) == count:
-                            pass
-                        else:
-                            memes.append(memeurls[i]["url"])
-                            print(str(count-len(memes))
-                            + " memes to copy remaining ", end="\r")
+                if j == l :
+                    
+                    memes.append(memeurls[i])
+                    d -= 1
+                    t = 0
 
-                        if len(memes) == count:
-                            go = True
+                    print(str(d)
+                    + " memes to copy remaining... ", end = "\r")
+                    
+                i += 1
 
-            except KeyError:
+            t += 1
 
-                try:
+        if d > 0:
+            print("\n\nSorry, we did not find enough memes found to satisfy "
+                  + "your request.\nHence the number of spammed memes will be"
+                  , count - d, end = ".\r")
 
-                    go = False
-
-                    memes = []
-
-                    while go == False:
-
-                        query = str("https://meme-api.herokuapp.com/gimme/"
-                        + str(subreddit))
-                        memedata = requests.get(query)
-                        memeinfo = memedata.json()
-                        memeurls = memeinfo["url"]
-                            
-                        if memeurls["url"] in memes or len(memes) == count:
-                            pass
-
-                        else:
-                            memes.append(memeurls["url"])
-                            print(str(count-len(memes))
-                            + " memes to copy remaining ", end="\r\r")
-
-                        if len(memes) == count:
-                            go = True
-
-                except KeyError:
-
-                    try:
-
-                        print("""
-Sorry, but it seems that this reddit doesn't exist.
-Hence, the memes will be taken from a random reddit.""")
-
-                        number = str(count)
-                        
-                        query = str("https://meme-api.herokuapp.com/gimme/" +
-                                    str(number))
-                        memesdata = requests.get(query)
-                        memesinfo = memesdata.json()
-                        memes = memesinfo["memes"]
-
-                        for i in range(count):
-                            memes[i] = memes[i]["url"]
-
-                    except:
-
-                        print("""
-Sorry, but it seems that you doesn't have internet connection.
-Please establish an internet connection.""")
-
-        return memes
+    return memes
 
 
-def start():
+def start(first=True):
 
     """
 Help on added function start in SPAMEME module:
 
-start()
+start(...)
+    start(first=True)
 
     Function that runs when SPAMEME is launched.
+    If first is set to True also prints the welcome message.
     It lasts from the moment you launch the program until the
     end, launching a different spam according to your choices.
     You can provide a subreddit (if you don't provide a subreddit
     or the provided subreddit doesn't exist, a random subreddit
     will be chosen), you must provide a number of memes to spam,
-    and an application to spam on.
+    and wether to spam the memes as urls or pictures.
 """
 
-    print(
-        """
+    if (first) :
+        print(
+"""
 .#@@@@@@@@##@@@@@@@@@#;#@@@@@@@#;#@@@@@#;#@@@@@#@@@@@@@@#@@@@@#;#@@@@@#@@@@@@@@#
 #/'      '\@.        \@@/     \@#@    '@#@'    @.       @    '@#@'    @.       @
 @    ##    @.    .    @@       @#@     \@/     @.    ###@     \@/     @.    ###@
@@ -287,7 +231,7 @@ start()
 @    ##    @.    @# #@/         \@   #\   /#   @.    ###@   #\   /#   @.    ###@
 @\.      ./@.    @# #@    #@#    @   @#   #@   @.       @   @#   #@   @.       @
 '#@@@@@@@@@#@@@@@#; ;#@@@@@@@@@@@#@@@#@@@@@#@@@#@@@@@@@@#@@@#@@@@@#@@@#@@@@@@@@#
-                                                                         v 1.0.1
+                                                                           v 6.9
 ╔═════════════════════════════════════════════════════╗                         
 ║ Licensed under the MIT License                      ║   ONE DOES NOT SIMPLY   
 ║ Copyright (c) 2021 Yunidraak                        ║         _-----_         
@@ -299,22 +243,21 @@ start()
 ║ which is not yet available because the developers   ║  |\   /     \  |¯       
 ║ are too lazy.                                       ║ /¯¯¯¯|      | |         
 ╚═════════════════════════════════════════════════════╝  SPAM MEMES WITH PYTHON 
-"""
-    )
+""", end = ""
+        )
 
     time.sleep(1)
 
-    print("\n\n")
+    print()
 
     choice = ""
 
     while choice == "":
 
         choice = input(
-            """Do you want to choose the subreddit from which the memes will be extracted?
-[Y/n]? """)
+            "\nDo you want to choose the memes' subreddit source [Y/n]? ")
 
-        if choice == "Y" or choice == "y":
+        if choice == "Y" or choice == "y" or choice == "" :
             choice = "y"
 
         elif choice == "N" or choice == "n":
@@ -324,24 +267,30 @@ start()
             print(choice, "is not an option.")
             choice = ""
 
-    print()
-
     subreddit = False
 
     while subreddit == False:
 
         if choice == "y":
             subreddit = input(
-                "\nFrom which subreddit do you want the memes?\n> ")
+                "\nFrom which subreddit do you want the memes?\n> ") + "/"
 
             try:
-                query = str("https://meme-api.herokuapp.com/gimme/" +
-                            str(subreddit))
+                if len(subreddit) > 3 and subreddit[:2] == "r/":
+                    subreddit = subreddit[2:]
+                query = str("https://meme-api.com/gimme/" +
+                            subreddit + "1")
                 memetest = requests.get(query)
+                memesinfo = memetest.json()
+                memes = memesinfo["memes"]
 
             except:
                 print(
-                    "\nThe subredit's name isn't valid or doesn't exist anymore.\nPlease verify your input."
+                    "\nThe memes are out of reach, it can be because of one of"
+                    + " the followings:\n\t- You are out of connection\n\t- "
+                    + "The subreddit's name isn't valid\n\t- The subreddit "
+                    + "doesn't exist anymore\nPlease check your connection and "
+                    + "your input."
                 )
                 subreddit = False
 
@@ -358,7 +307,8 @@ start()
 
             if count < 1:
                 print(
-                    "\nThe amount of meme must be an integer superior or equal to 1."
+                    "\nThe amount of meme must be an integer superior or equal "
+                    + "to 1."
                 )
                 count = False
 
@@ -370,14 +320,12 @@ start()
 
     option = ""
 
-    print()
-
     while option == "":
 
         option = input(
-            "\nDo you want to spam the memes as url or pictures [u/p]? ")
+            "\nDo you want to spam the memes as urls or pictures [U/p]? ")
 
-        if option == "U" or option == "u":
+        if option == "U" or option == "u" or option == "":
             option = "url"
 
         elif option == "P" or option == "p":
@@ -392,6 +340,15 @@ start()
     elif option == "picture":
         spam(subreddit, count, 1)
     else:
-        pass
+        return
+
+    
+    time.sleep(1)
+    restart = print("\n\nMission Accomplished.\nPress Enter to close the program"
+                    + ", or press Space else to spam again.", end = " ")
+
+    while not keyboard.is_pressed("enter"):
+        if keyboard.is_pressed("space"):
+            start(False)
 
 start()
